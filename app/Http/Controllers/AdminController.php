@@ -13,59 +13,76 @@ class AdminController extends Controller
     //
     function login(Request $request)
     {
-        $validation=$request->validate([
-            "name"=>"required",
-            "password"=>"required",
+        $validation = $request->validate([
+            "name" => "required",
+            "password" => "required",
         ]);
         $admin = Admin::where([
             ["name", "=", $request->name],
             ["password", "=", $request->password]
         ])->first();
 
-        if(!$admin){
-           $validation=$request->validate([
-            "user"=>"required",
-        ],[
-            "user.required"=>"user doesn't exist"
-        ]); 
+        if (!$admin) {
+            $validation = $request->validate([
+                "user" => "required",
+            ], [
+                "user.required" => "user doesn't exist"
+            ]);
         }
-        Session::put("admin",$admin);
+        Session::put("admin", $admin);
         return redirect("dashboard");
 
         // return view("admin",["name"=>$admin->name]);
     }
-    function dashboard(){
-        $admin= Session::get("admin");
-        if($admin){
-            return view("admin",["name"=>$admin->name]);
-        }
-        else{
+    function dashboard()
+    {
+        $admin = Session::get("admin");
+        if ($admin) {
+            return view("admin", ["name" => $admin->name]);
+        } else {
             return redirect("admin-login");
         }
     }
-    function categories(){
-        $admin= Session::get("admin");
-        if($admin){
-            return view("categories",["name"=>$admin->name]);
-        }
-        else{
+    function categories()
+    {
+
+        $categories = Category::get();
+        $admin = Session::get("admin");
+        if ($admin) {
+            return view("categories", ["name" => $admin->name, "categories" => $categories]);
+        } else {
             return redirect("admin-login");
         }
     }
-    function logout(){
+    function logout()
+    {
         Session::forget("admin");
         return redirect("admin-login");
     }
-    function addCategory(Request $request){
-         $admin= Session::get("admin");
-         $category=new Category();
-         $category->name=$request->category;
-         $category->creator=$admin->name;
-         if($category->save()){
-            Session::flash('category', 'Success: Category `'.$category->name.'` Added.');
-         }
-         return redirect("admin-categories");
-
-
+    function addCategory(Request $request)
+    {
+        $validation = $request->validate([
+            "category" => "required | min:3 | unique:categories,name",
+        ]);
+        $admin = Session::get("admin");
+        $category = new Category();
+        $category->name = $request->category;
+        $category->creator = $admin->name;
+        if ($category->save()) {
+            Session::flash('category', 'Success: Category `' . $category->name . '` Added.');
+        } else {
+            Session::flash('error', 'Failed : Try again.');
+        }
+        return redirect("admin-categories");
+    }
+    function deleteCategory($id){
+        $varName= Category::find($id)->name;
+        $isDeleted=Category::find($id)->delete();
+        if ($isDeleted) {
+            Session::flash('delete', 'Success: Category `' . $varName . '` Deleted.');
+        } else {
+            Session::flash('error', 'Failed : Try again.');
+        }
+        return redirect("admin-categories");
     }
 }
