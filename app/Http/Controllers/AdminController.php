@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\Quiz;
 
 
 class AdminController extends Controller
@@ -75,14 +76,36 @@ class AdminController extends Controller
         }
         return redirect("admin-categories");
     }
-    function deleteCategory($id){
-        $varName= Category::find($id)->name;
-        $isDeleted=Category::find($id)->delete();
+    function deleteCategory($id)
+    {
+        $varName = Category::find($id)->name;
+        $isDeleted = Category::find($id)->delete();
         if ($isDeleted) {
             Session::flash('delete', 'Success: Category `' . $varName . '` Deleted.');
         } else {
             Session::flash('error', 'Failed : Try again.');
         }
         return redirect("admin-categories");
+    }
+    function addQuiz()
+    {
+        // return Session::get("quizDetails");
+        $admin = Session::get("admin");
+        $categories = Category::get();
+        if ($admin) {
+            $quizName = request('quiz');
+            $category_id = request('category_id');
+            if($quizName && $category_id && !Session::has("quizDetails")){
+                $quiz=new Quiz();// this object initializes an empty row
+                $quiz->name=$quizName;
+                $quiz->category_id=$category_id;
+                if($quiz->save()){
+                    Session::put("quizDetails",$quiz);
+                }
+            }
+            return view("add-quiz", ["name" => $admin->name, "categories" => $categories]);
+        } else {
+            return redirect("admin-login");
+        }
     }
 }

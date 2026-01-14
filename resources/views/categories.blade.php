@@ -21,7 +21,7 @@
         </div>
     @endif
     @if (session('delete'))
-        <div class=" bg-green-800 text-white pl-5">{{ session('delete') }}</div>
+        <div class=" bg-red-700 text-white pl-5">{{ session('delete') }}</div>
     @endif
     <div class=" bg-gray-100 flex flex-col items-center min-h-screen  pt-5 ">
         <div class=" bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm ">
