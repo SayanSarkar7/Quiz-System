@@ -17,7 +17,7 @@
             @if (!Session('quizDetails'))
                 <h2 class=" text-2xl text-gray-800 text-center mb-6">Add Quiz</h2>
 
-                <form action="add-quiz" method="GET" class=" space-y-4">
+                <form action="add-quiz" method="get" class=" space-y-4">
 
                     <div>
                         <input type="text" placeholder="Enter Quiz Name"
@@ -41,46 +41,47 @@
                     <button type="submit" class=" w-full bg-blue-500 rounded-xl py-2 px-4 text-white">Add</button>
                 </form>
             @else
-                <span class=" text-green-500 font-bold"> Quiz : {{ Session('quizDetails')->name }}</span>
+                <span class=" text-green-500 font-bold"> Quiz Topic: {{ Session('quizDetails')->name }}</span>
                 <h2 class=" text-2xl text-gray-800 text-center mb-6">Add MCQs</h2>
-                <form action="" method="get" class=" space-y-4">
+                <form action="add-mcq" method="POST" class=" space-y-4">
+                    @csrf
                     <div>
                         <textarea type="text" placeholder="Enter Your Question"
-                            class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none" name="quiz"></textarea>
+                            class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none" name="question"></textarea>
                     </div>
                     <div>
                         <input type="text" placeholder="Enter First Option"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
-                            name="quiz">
+                            name="a">
                     </div>
                     <div>
                         <input type="text" placeholder="Enter Second Option"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
-                            name="quiz">
+                            name="b">
                     </div>
                     <div>
                         <input type="text" placeholder="Enter Third Option"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
-                            name="quiz">
+                            name="c">
                     </div>
                     <div>
                         <input type="text" placeholder="Enter Fourth Option"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
-                            name="quiz">
+                            name="d">
                     </div>
                     <div>
                         <select type="text"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
-                            name="right answer">
+                            name="correct_ans">
                             <option>Select Right Answer</option>
-                            <option>A</option>
-                            <option>B</option>
-                            <option>C</option>
-                            <option>D</option>
+                            <option value="a">A</option>
+                            <option value="b">B</option>
+                            <option value="c">C</option>
+                            <option value="d">D</option>
                         </select>
                     </div>
-                    <button type="submit" class=" w-full bg-blue-500 rounded-xl py-2 px-4 text-white">Add More</button>
-                    <button type="submit" class=" w-full bg-green-500 rounded-xl py-2 px-4 text-white">Add and Submit</button>
+                    <button type="submit" name="submit" value="add-more" class="  w-full bg-blue-500 rounded-xl py-2 px-4 text-white">Add More</button>
+                    <button type="submit" name="submit" value="done" class=" w-full bg-green-500 rounded-xl py-2 px-4 text-white">Add and Submit</button>
                 </form>
             @endif
         </div>

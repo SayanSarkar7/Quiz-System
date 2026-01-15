@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Admin;
 use App\Models\Category;
 use App\Models\Quiz;
+use App\Models\Mcq;
 
 
 class AdminController extends Controller
@@ -95,17 +96,43 @@ class AdminController extends Controller
         if ($admin) {
             $quizName = request('quiz');
             $category_id = request('category_id');
-            if($quizName && $category_id && !Session::has("quizDetails")){
-                $quiz=new Quiz();// this object initializes an empty row
-                $quiz->name=$quizName;
-                $quiz->category_id=$category_id;
-                if($quiz->save()){
-                    Session::put("quizDetails",$quiz);
+            if ($quizName && $category_id && !Session::has("quizDetails")) {
+                $quiz = new Quiz(); // this object initializes an empty row
+                $quiz->name = $quizName;
+                $quiz->category_id = $category_id;
+                if ($quiz->save()) {
+                    Session::put("quizDetails", $quiz);
                 }
             }
             return view("add-quiz", ["name" => $admin->name, "categories" => $categories]);
         } else {
             return redirect("admin-login");
+        }
+    }
+    function addMCQs(Request $request)
+    {
+        $mcq = new Mcq();
+        $mcq->question = $request->question;
+        $mcq->a = $request->a;
+        $mcq->b = $request->b;
+        $mcq->c = $request->c;
+        $mcq->d = $request->d;
+        $mcq->correct_ans = $request->correct_ans;
+
+        $quiz = Session::get("quizDetails");
+        $admin = Session::get("admin");
+
+        $mcq->admin_id = $admin->id;
+        $mcq->quiz_id = $quiz->id;
+        $mcq->category_id = $quiz->category_id;
+
+        if ($mcq->save()) {
+            if ($request->submit == "add-more") {
+                return redirect(url()->previous());
+            } else {
+                Session::forget("quizDetails");
+                return redirect("/admin-categories");
+            }
         }
     }
 }
