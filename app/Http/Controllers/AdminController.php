@@ -111,6 +111,20 @@ class AdminController extends Controller
     }
     function addMCQs(Request $request)
     {
+        $request->validate([
+            'question' => "required | min:5",
+            'a' => "required",
+            'b' => "required",
+            'c' => "required",
+            'd' => "required",
+            'correct_ans' => "required",
+        ], [
+            'a.required' => "Option A is required",
+            'b.required' => "Option B is required",
+            'c.required' => "Option C is required",
+            'd.required' => "Option D is required",
+            'correct_ans.required' => "Correct Answer is required",
+        ]);
         $mcq = new Mcq();
         $mcq->question = $request->question;
         $mcq->a = $request->a;
@@ -134,5 +148,10 @@ class AdminController extends Controller
                 return redirect("/admin-categories");
             }
         }
+    }
+    function endQuiz()
+    {
+        Session::forget("quizDetails");
+        return redirect("/admin-categories");
     }
 }

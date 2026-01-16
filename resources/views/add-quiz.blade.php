@@ -20,7 +20,7 @@
                 <form action="add-quiz" method="get" class=" space-y-4">
 
                     <div>
-                        <input type="text" placeholder="Enter Quiz Name"
+                        <input type="text" required placeholder="Enter Quiz Name"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
                             name="quiz">
                         @error('category')
@@ -48,40 +48,61 @@
                     <div>
                         <textarea type="text" placeholder="Enter Your Question"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none" name="question"></textarea>
+                        @error('question')
+                            <div class=" text-red-500 ">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
                         <input type="text" placeholder="Enter First Option"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
                             name="a">
+                        @error('a')
+                            <div class=" text-red-500 ">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
                         <input type="text" placeholder="Enter Second Option"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
                             name="b">
+                        @error('b')
+                            <div class=" text-red-500 ">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
                         <input type="text" placeholder="Enter Third Option"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
                             name="c">
+                        @error('c')
+                            <div class=" text-red-500 ">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
                         <input type="text" placeholder="Enter Fourth Option"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
                             name="d">
+                        @error('d')
+                            <div class=" text-red-500 ">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
                         <select type="text"
                             class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none"
                             name="correct_ans">
-                            <option>Select Right Answer</option>
+                            <option value="">Select Right Answer</option>
                             <option value="a">A</option>
                             <option value="b">B</option>
                             <option value="c">C</option>
                             <option value="d">D</option>
                         </select>
+                        @error('correct_ans')
+                            <div class=" text-red-500 ">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <button type="submit" name="submit" value="add-more" class="  w-full bg-blue-500 rounded-xl py-2 px-4 text-white">Add More</button>
-                    <button type="submit" name="submit" value="done" class=" w-full bg-green-500 rounded-xl py-2 px-4 text-white">Add and Submit</button>
+                    <button type="submit" name="submit" value="add-more"
+                        class="  w-full bg-blue-500 rounded-xl py-2 px-4 text-white">Add More</button>
+                    <button type="submit" name="submit" value="done"
+                        class=" w-full bg-green-500 rounded-xl py-2 px-4 text-white">Add and Submit</button>
+                        <a class=" w-full bg-red-500 block text-center rounded-xl py-2 px-4 text-white" href="/end-quiz">Finish Quiz</a>
                 </form>
             @endif
         </div>
