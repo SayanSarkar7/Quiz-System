@@ -31,6 +31,11 @@ class AdminController extends Controller
                 "user.required" => "user doesn't exist"
             ]);
         }
+        if (!$admin) {
+        return back()->withErrors([
+            'user' => "User doesn't exist"
+        ]);
+    }
         Session::put("admin", $admin);
         return redirect("dashboard");
 
@@ -59,6 +64,8 @@ class AdminController extends Controller
     function logout()
     {
         Session::forget("admin");
+        Session::flush();
+
         return redirect("admin-login");
     }
     function addCategory(Request $request)
@@ -93,6 +100,7 @@ class AdminController extends Controller
         // return Session::get("quizDetails");
         $admin = Session::get("admin");
         $categories = Category::get();
+        $totalMCQs = 0;
         if ($admin) {
             $quizName = request('quiz');
             $category_id = request('category_id');
@@ -103,8 +111,12 @@ class AdminController extends Controller
                 if ($quiz->save()) {
                     Session::put("quizDetails", $quiz);
                 }
+            } 
+            if(Session::has("quizDetails")) {
+                $quiz = Session::get("quizDetails");
+                $totalMCQs = Mcq::where('quiz_id', $quiz->id)->count();
             }
-            return view("add-quiz", ["name" => $admin->name, "categories" => $categories]);
+            return view("add-quiz", ["name" => $admin->name, "categories" => $categories, "totalMCQs" => $totalMCQs]);
         } else {
             return redirect("admin-login");
         }
@@ -154,4 +166,16 @@ class AdminController extends Controller
         Session::forget("quizDetails");
         return redirect("/admin-categories");
     }
+    function showQuiz($id)
+    {
+       $admin = Session::get("admin");
+       $mcqs=Mcq::where("quiz_id",$id)->get(); 
+       if ($admin) {
+            return view("show-quiz", ["name" => $admin->name, "mcqs" => $mcqs]);
+        } else {
+            return redirect("admin-login");
+        }
+
+    }
+    
 }

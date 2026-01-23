@@ -42,6 +42,13 @@
                 </form>
             @else
                 <span class=" text-green-500 font-bold"> Quiz Topic: {{ Session('quizDetails')->name }}</span>
+                <p class=" text-green-500 font-bold"> Total MCQs: {{ $totalMCQs }}
+                    @if ($totalMCQs > 0)
+                        {
+                        <a href="show-quiz/{{Session('quizDetails')->id}}" class=" text-yellow-500 text-sm">Show MCQs</a>
+                        }
+                    @endif
+                </p>
                 <h2 class=" text-2xl text-gray-800 text-center mb-6">Add MCQs</h2>
                 <form action="add-mcq" method="POST" class=" space-y-4">
                     @csrf
@@ -102,7 +109,8 @@
                         class="  w-full bg-blue-500 rounded-xl py-2 px-4 text-white">Add More</button>
                     <button type="submit" name="submit" value="done"
                         class=" w-full bg-green-500 rounded-xl py-2 px-4 text-white">Add and Submit</button>
-                        <a class=" w-full bg-red-500 block text-center rounded-xl py-2 px-4 text-white" href="/end-quiz">Finish Quiz</a>
+                    <a class=" w-full bg-red-500 block text-center rounded-xl py-2 px-4 text-white"
+                        href="/end-quiz">Finish Quiz</a>
                 </form>
             @endif
         </div>
