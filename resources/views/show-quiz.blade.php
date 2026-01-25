@@ -13,7 +13,7 @@
 
     <x-navbar :name="$name"></x-navbar>
     <div class=" bg-gray-100 flex flex-col items-center min-h-screen  pt-5 ">
-        <h2 class=" text-2xl text-gray-800 text-center mb-6">All Current Quiz MCQs</h2>
+        <h2 class=" text-2xl text-gray-800 text-center mb-6">Quiz Name: {{$quizName}}</h2>
 
 
 
