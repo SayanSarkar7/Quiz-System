@@ -5,7 +5,11 @@ module.exports = {
         "./resources/**/*.vue",
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                comic: ['"Comic Sans MS"', '"Comic Neue"', 'cursive'],
+            },
+        },
     },
     plugins: [],
 }

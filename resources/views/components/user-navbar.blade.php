@@ -2,7 +2,7 @@
         <div class=" flex  justify-between items-center ">
             <div class=" text-2xl text-green-900 hover:text-blue-500 cursor-pointer ">Quiz System</div>
             <div class=" space-x-4">
-                <a class=" text-green-900 hover:text-blue-500" href="/dashboard">Home</a>
+                <a class=" text-green-900 hover:text-blue-500" href="/">Home</a>
                 <a class=" text-green-900 hover:text-blue-500" href="/admin-categories">Categories</a>
                 <a class=" text-green-900 hover:text-blue-500" href="">Login</a>
                 <a class=" text-green-900 hover:text-blue-500" href="/admin-logout">Blog</a>

@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Quiz extends Model
 {
     use HasFactory;
+    function categories(){
+        return $this->belongsTo(Category::class);
+    }
 }
