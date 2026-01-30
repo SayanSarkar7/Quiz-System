@@ -17,6 +17,8 @@ use App\Http\Controllers\UserController;
 
 Route::get("/",[UserController::class,"home"]);
 Route::get('user-quiz-list/{id}/{category}', [UserController::class, "userQuizList"]);
+Route::view("user-signup","user-signup");
+Route::post("user-signup", [UserController::class,"userSignUp"]);
 
 
 

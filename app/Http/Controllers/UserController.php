@@ -20,4 +20,12 @@ class userController extends Controller
         $quizData = Quiz::where("category_id", $id)->get();
         return view("user-quiz-list", ["quizData" => $quizData, "category" => $category]);
     }
+    function userSignUp(Request $request){
+        $validation=$request->validate([
+            "name"=>"required | min:3",
+            "email"=>"required | email",
+            "password"=>"required | min:4 | confirmed",
+
+        ]);
+    }
 }

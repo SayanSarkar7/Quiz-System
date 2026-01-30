@@ -43,7 +43,7 @@
                 @endforeach
             </ul>
         </div>
-        <a class=" w-20 bg-blue-500 block text-center rounded-xl py-2 px-4 text-white" href="/add-quiz">Back</a>
+        <a class=" w-20 bg-green-500 block text-center rounded-xl py-2 px-4 text-white" href="/add-quiz">Back</a>
     </div>
 
 </body>
