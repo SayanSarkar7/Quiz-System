@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Mcq;
 use App\Models\Quiz;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class userController extends Controller
 {
@@ -31,9 +34,19 @@ class userController extends Controller
     function userSignUp(Request $request){
         $validation=$request->validate([
             "name"=>"required | min:3",
-            "email"=>"required | email",
+            "email"=>"required | email | unique:users",
             "password"=>"required | min:4 | confirmed",
 
         ]);
+        $user=User::create([
+            "name"=>$request->name,
+            "email"=>$request->email,
+            "password"=>Hash::make($request->password),
+          
+        ]);
+        if($user){
+            Session::put('user',$user);
+            return redirect("/");
+        }
     }
 }
