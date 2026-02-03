@@ -46,7 +46,20 @@ class userController extends Controller
         ]);
         if($user){
             Session::put('user',$user);
+            if(Session::has("quiz-url")){
+                $url=Session::get('quiz-url');
+                Session::forget('quiz-url');
+                return redirect($url);
+            }
             return redirect("/");
         }
+    }
+    function userLogOut(){
+        Session::forget('user');
+        return redirect("/");
+    }
+    function userSignUpQuiz(){
+        Session::put("quiz-url",url()->previous());
+        return view("user-signup");
     }
 }

@@ -20,6 +20,8 @@ Route::get('user-quiz-list/{id}/{category}', [UserController::class, "userQuizLi
 Route::get('start-quiz/{id}/{name}', [UserController::class, "startQuiz"]);
 Route::view("user-signup","user-signup");
 Route::post("user-signup", [UserController::class,"userSignUp"]);
+Route::get("user-logout", [UserController::class,"userLogOut"]);
+Route::get("user-signup-quiz", [UserController::class,"userSignUpQuiz"]);
 
 
 

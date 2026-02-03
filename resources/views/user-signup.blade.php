@@ -51,7 +51,7 @@
                     <div class=" text-red-500 ">{{ $message }}</div>
                     @enderror
                 </div>
-                <button type="submit" class=" w-full bg-green-500 rounded-xl py-2 px-4 text-white">SignUp</button>
+                <button type="submit" class=" cursor-pointer w-full bg-green-500 rounded-xl py-2 px-4 text-white">SignUp</button>
             </form>
         </div>
     </div>
