@@ -62,4 +62,28 @@ class userController extends Controller
         Session::put("quiz-url",url()->previous());
         return view("user-signup");
     }
+    function userLogin(Request $request){
+        $validation=$request->validate([
+            "email"=>"required | email ",
+            "password"=>"required",
+
+        ]);
+        $user=User::where('email',$request->email)->first();
+        if(!$user|| !Hash::check($request->password,$user->password)){
+            return "User not valid, Please check user and password again";
+        }
+        if($user){
+            Session::put('user',$user);
+            if(Session::has("quiz-url")){
+                $url=Session::get('quiz-url');
+                Session::forget('quiz-url');
+                return redirect($url);
+            }
+            return redirect("/");
+        }
+    }
+    function userLoginQuiz(){
+        Session::put("quiz-url",url()->previous());
+        return view("user-login");
+    }
 }

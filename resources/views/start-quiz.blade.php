@@ -19,7 +19,8 @@
         @if(Session('user'))
         <a type="submit" href="" class=" bg-green-500 rounded-xl py-2 px-4 my-5 text-white">Start Quiz</a>
         @else
-        <a type="submit" href="/user-signup-quiz" class=" bg-green-500 rounded-xl py-2 px-4 my-5 text-white">Login / SignUp</a>
+        <a type="submit" href="/user-login-quiz" class=" bg-green-500 rounded-xl py-2 px-4 my-5 text-white">Login for Quiz</a>
+        <a type="submit" href="/user-signup-quiz" class=" bg-green-500 rounded-xl py-2 px-4 my-5 text-white">SignUp for Quiz</a>
         @endif
     </div>
 
