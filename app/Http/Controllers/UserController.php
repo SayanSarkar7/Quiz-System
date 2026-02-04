@@ -26,64 +26,76 @@ class userController extends Controller
     }
 
 
-    function startQuiz($id,$name){
-        $quizCount= Mcq::where("quiz_id",$id)->count();
-        return view("start-quiz",["quizCount"=>$quizCount,"quizName"=>$name]);
+    function startQuiz($id, $name)
+    {
+        $quizCount = Mcq::where("quiz_id", $id)->count();
+        $mcqs = Mcq::where("quiz_id", $id)->get();
+        Session::put("firstMCQ", $mcqs[0]);
+        return view("start-quiz", ["quizCount" => $quizCount, "quizName" => $name]);
     }
 
-    function userSignUp(Request $request){
-        $validation=$request->validate([
-            "name"=>"required | min:3",
-            "email"=>"required | email | unique:users",
-            "password"=>"required | min:4 | confirmed",
+    function userSignUp(Request $request)
+    {
+        $validation = $request->validate([
+            "name" => "required | min:3",
+            "email" => "required | email | unique:users",
+            "password" => "required | min:4 | confirmed",
 
         ]);
-        $user=User::create([
-            "name"=>$request->name,
-            "email"=>$request->email,
-            "password"=>Hash::make($request->password),
-          
+        $user = User::create([
+            "name" => $request->name,
+            "email" => $request->email,
+            "password" => Hash::make($request->password),
+
         ]);
-        if($user){
-            Session::put('user',$user);
-            if(Session::has("quiz-url")){
-                $url=Session::get('quiz-url');
+        if ($user) {
+            Session::put('user', $user);
+            if (Session::has("quiz-url")) {
+                $url = Session::get('quiz-url');
                 Session::forget('quiz-url');
                 return redirect($url);
             }
             return redirect("/");
         }
     }
-    function userLogOut(){
+    function userLogOut()
+    {
         Session::forget('user');
         return redirect("/");
     }
-    function userSignUpQuiz(){
-        Session::put("quiz-url",url()->previous());
+    function userSignUpQuiz()
+    {
+        Session::put("quiz-url", url()->previous());
         return view("user-signup");
     }
-    function userLogin(Request $request){
-        $validation=$request->validate([
-            "email"=>"required | email ",
-            "password"=>"required",
+    function userLogin(Request $request)
+    {
+        $validation = $request->validate([
+            "email" => "required | email ",
+            "password" => "required",
 
         ]);
-        $user=User::where('email',$request->email)->first();
-        if(!$user|| !Hash::check($request->password,$user->password)){
+        $user = User::where('email', $request->email)->first();
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return "User not valid, Please check user and password again";
         }
-        if($user){
-            Session::put('user',$user);
-            if(Session::has("quiz-url")){
-                $url=Session::get('quiz-url');
+        if ($user) {
+            Session::put('user', $user);
+            if (Session::has("quiz-url")) {
+                $url = Session::get('quiz-url');
                 Session::forget('quiz-url');
                 return redirect($url);
             }
             return redirect("/");
         }
     }
-    function userLoginQuiz(){
-        Session::put("quiz-url",url()->previous());
+    function userLoginQuiz()
+    {
+        Session::put("quiz-url", url()->previous());
         return view("user-login");
+    }
+    function mcq($id, $name)
+    {
+       return view("mcq-page");
     }
 }

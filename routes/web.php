@@ -25,6 +25,7 @@ Route::get("user-signup-quiz", [UserController::class,"userSignUpQuiz"]);
 Route::view("user-login","user-login");
 Route::post("user-login", [UserController::class,"userLogin"]);
 Route::get("user-login-quiz", [UserController::class,"userLoginQuiz"]);
+Route::get("mcq/{id}/{name}", [UserController::class,"mcq"]);
 
 
 

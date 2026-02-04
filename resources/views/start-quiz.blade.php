@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Quiz List Page</title>
+    <title>Start Quiz Page</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -17,7 +17,7 @@
         <h2 class=" text-lg font-bold text-green-900 text-center mb-6 font-comic">This Quiz contains {{$quizCount}} number of questions and no limit to attempt this Quiz</h2>
         <h2 class=" text-2xl font-bold text-green-900 text-center mb-6 font-comic">Good Luck</h2>
         @if(Session('user'))
-        <a type="submit" href="" class=" bg-green-500 rounded-xl py-2 px-4 my-5 text-white">Start Quiz</a>
+        <a type="submit" href="/mcq/{{Session('firstMCQ')->id}}/{{$quizName}}" class=" bg-green-500 rounded-xl py-2 px-4 my-5 text-white">Start Quiz</a>
         @else
         <a type="submit" href="/user-login-quiz" class=" bg-green-500 rounded-xl py-2 px-4 my-5 text-white">Login for Quiz</a>
         <a type="submit" href="/user-signup-quiz" class=" bg-green-500 rounded-xl py-2 px-4 my-5 text-white">SignUp for Quiz</a>
