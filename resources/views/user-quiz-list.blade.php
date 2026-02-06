@@ -15,8 +15,6 @@
     <div class=" bg-gray-100 flex flex-col items-center min-h-screen  pt-5 ">
         <h2 class=" text-2xl text-green-900 text-center mb-6 font-comic">Category Name : {{$category}} </h2>
 
-
-
         <div class=" w-200 mb-10">
             <ul class="border border-gray-200 text-center">
                 <li class=" p-2 font-bold text-lg">

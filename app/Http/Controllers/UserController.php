@@ -96,6 +96,30 @@ class userController extends Controller
     }
     function mcq($id, $name)
     {
-       return view("mcq-page");
+        $currentQuiz = [];
+
+        $currentQuiz['totalMcq'] = Mcq::where("quiz_id", Session::get('firstMCQ')->quiz_id)->count();
+        $currentQuiz['currentMcq'] = 1;
+        $currentQuiz['quizName'] = $name;
+        $currentQuiz['quizId'] = Session::get('firstMCQ')->quiz_id;
+        Session::put("currentQuiz", $currentQuiz);
+        $firstMcqData = Mcq::find($id);
+        return view("mcq-page", ["quizName" => $name, "mcqData" => $firstMcqData]);
+    }
+    function mcqSaveNext($id)
+    {
+        $currentQuiz = Session::get("currentQuiz");
+        $currentQuiz['currentMcq'] += 1;
+        $nextMcq = Mcq::where([
+            ["id", ">", $id],
+            ["quiz_id", "=", $currentQuiz['quizId']]
+        ])->first();
+        Session::put("currentQuiz", $currentQuiz);
+        if ($nextMcq) {
+
+            return view("mcq-page", ["quizName" => $currentQuiz['quizName'], "mcqData" => $nextMcq]);
+        } else {
+            return "result Page";
+        }
     }
 }
