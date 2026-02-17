@@ -24,20 +24,21 @@
             <h3 class=" text-green-900 font-bold text-xl mb-1">{{$mcqData->question}}</h3>
             <form action="/mcq-save-next/{{$mcqData->id}} " class=" space-y-4" method="post">
                 @csrf
+                <input type="hidden" name="id" value="{{$mcqData->id}}">
                 <label for="option_1" class=" flex border ring-1 ring-green-700 cursor-pointer border-green-700 p-3 mt-2 rounded-xl shadow-md hover:bg-green-50">
-                    <input id="option_1" class=" form-radio text-green-900 accent-green-700" type="radio" name="option" >
+                    <input id="option_1" class=" form-radio text-green-900 accent-green-700" type="radio" value="a" name="option" >
                     <span class=" text-green-900 pl-2 ">{{$mcqData->a}}</span>
                 </label>
                 <label for="option_2" class=" flex border ring-1 ring-green-700 cursor-pointer border-green-700 p-3 mt-2 rounded-xl shadow-md hover:bg-green-50">
-                    <input id="option_2" class=" form-radio text-green-900 accent-green-700" type="radio" name="option">
+                    <input id="option_2" class=" form-radio text-green-900 accent-green-700" type="radio" value="b" name="option">
                     <span class=" text-green-900 pl-2 ">{{$mcqData->b}}</span>
                 </label>
                 <label for="option_3" class=" flex border ring-1 ring-green-700 cursor-pointer border-green-700 p-3 mt-2 rounded-xl shadow-md hover:bg-green-50">
-                    <input id="option_3" class=" form-radio text-green-900 accent-green-700" type="radio" name="option">
+                    <input id="option_3" class=" form-radio text-green-900 accent-green-700" type="radio" value="c" name="option">
                     <span class=" text-green-900 pl-2 ">{{$mcqData->c}}</span>
                 </label>
                 <label for="option_4" class=" flex border ring-1 ring-green-700 cursor-pointer border-green-700 p-3 mt-2 rounded-xl shadow-md hover:bg-green-50">
-                    <input id="option_4" class=" form-radio text-green-900 accent-green-700" type="radio" name="option">
+                    <input id="option_4" class=" form-radio text-green-900 accent-green-700" type="radio" value="d" name="option">
                     <span class=" text-green-900 pl-2 ">{{$mcqData->d}}</span>
                 </label>
                 <button type="submit" class=" cursor-pointer w-full bg-green-500 rounded-xl py-2 px-4 text-white">Save and Next</button>
