@@ -27,6 +27,7 @@ Route::post("user-login", [UserController::class,"userLogin"]);
 Route::get("user-login-quiz", [UserController::class,"userLoginQuiz"]);
 Route::get("mcq/{id}/{name}", [UserController::class,"mcq"]);
 Route::post("mcq-save-next/{id}", [UserController::class,"mcqSaveNext"]);
+Route::get("user-details", [UserController::class,"userDetails"]);
 
 
 
