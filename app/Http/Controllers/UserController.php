@@ -11,6 +11,9 @@ use App\Models\User;
 use App\Models\MCQ_Record;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
+use App\Mail\VerifyUser;
 
 class userController extends Controller
 {
@@ -50,6 +53,16 @@ class userController extends Controller
             "password" => Hash::make($request->password),
 
         ]);
+
+        //
+        
+        $link=Crypt::encryptString($user->email);
+        $link=url('/verify-user/'.$link);
+        Mail::to($user->email)->send(new VerifyUser($link)); 
+
+
+        //
+
         if ($user) {
             Session::put('user', $user);
             if (Session::has("quiz-url")) {
@@ -175,8 +188,19 @@ class userController extends Controller
         $quizRecord = Record::WithQuiz()->where("user_id", Session::get("user")->id)->get();
         return view("user-details", ["quizRecord" => $quizRecord]);
     }
-    function searchQuiz(Request $request){
-         $quizData=Quiz::withCount("Mcq")->where("name",'Like','%'.$request->search.'%')->get();
-        return view('quiz-search',['quizData'=>$quizData,'quiz'=>$request->search]);
+    function searchQuiz(Request $request)
+    {
+        $quizData = Quiz::withCount("Mcq")->where("name", 'Like', '%' . $request->search . '%')->get();
+        return view('quiz-search', ['quizData' => $quizData, 'quiz' => $request->search]);
+    }
+    function verifyUser($email){
+         $originalEmail=Crypt::decryptString($email);
+        $user=User::where("email",$originalEmail)->first();
+        if($user){
+            $user->active=2;
+            if($user->save()){
+                return redirect("/");
+            }
+        }
     }
 }
