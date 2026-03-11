@@ -45,7 +45,7 @@
                 <p class=" text-green-500 font-bold"> Total MCQs: {{ $totalMCQs }}
                     @if ($totalMCQs > 0)
                         {
-                        <a href="show-quiz/{{Session('quizDetails')->id}}" class=" text-yellow-500 text-sm">Show MCQs</a>
+                        <a href="show-quiz/{{Session('quizDetails')->id}}/{{ Session('quizDetails')->name }}" class=" text-yellow-500 text-sm">Show MCQs</a>
                         }
                     @endif
                 </p>

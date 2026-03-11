@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use App\Mail\VerifyUser;
+use App\Mail\UserForgotPassword;
 
 class userController extends Controller
 {
@@ -55,10 +56,10 @@ class userController extends Controller
         ]);
 
         //
-        
-        $link=Crypt::encryptString($user->email);
-        $link=url('/verify-user/'.$link);
-        Mail::to($user->email)->send(new VerifyUser($link)); 
+
+        $link = Crypt::encryptString($user->email);
+        $link = url('/verify-user/' . $link);
+        Mail::to($user->email)->send(new VerifyUser($link));
 
 
         //
@@ -193,14 +194,43 @@ class userController extends Controller
         $quizData = Quiz::withCount("Mcq")->where("name", 'Like', '%' . $request->search . '%')->get();
         return view('quiz-search', ['quizData' => $quizData, 'quiz' => $request->search]);
     }
-    function verifyUser($email){
-         $originalEmail=Crypt::decryptString($email);
-        $user=User::where("email",$originalEmail)->first();
-        if($user){
-            $user->active=2;
-            if($user->save()){
+    function verifyUser($email)
+    {
+        $originalEmail = Crypt::decryptString($email);
+        $user = User::where("email", $originalEmail)->first();
+        if ($user) {
+            $user->active = 2;
+            if ($user->save()) {
                 return redirect("/");
             }
         }
+    }
+    function userForgotPassword(Request $request)
+    {
+        $link = Crypt::encryptString($request->email);
+        $link = url('/user-forgot-password/' . $link);
+        Mail::to($request->email)->send(new UserForgotPassword($link));
+
+        return redirect("/");
+    }
+    function userResetForgotPassword($email)
+    {
+        $originalEmail = Crypt::decryptString($email);
+        return view("user-set-forgot-password", ["email" => $originalEmail]);
+    }
+    function userSetForgotPassword(Request $request){
+        $validation = $request->validate([
+            "email" => "required | email ",
+            "password" => "required | min:4 | confirmed",
+
+        ]);
+        $user = User::where('email', $request->email)->first();
+        if($user){
+            $user->password=Hash::make($request->password);
+            if($user->save()){
+                return redirect('user-login');
+            }
+        }
+        return $request;
     }
 }

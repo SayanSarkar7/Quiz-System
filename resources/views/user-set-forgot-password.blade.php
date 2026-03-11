@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>User Login</title>
+    <title>User SignUp</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
@@ -12,17 +12,16 @@
     <x-user-navbar></x-user-navbar>
     <div class=" bg-gray-100 flex justify-center items-center min-h-screen ">
         <div class=" bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm ">
-            <h2 class=" text-2xl text-gray-800 text-center mb-6">User Login</h2>
+            <h2 class=" text-2xl text-gray-800 text-center mb-6">User Set Password</h2>
             @error('user')
             <div class=" text-red-500 ">{{ $message }}</div>
             @enderror
-            <form action="user-login" method="POST" class=" space-y-4">
+            <form action="/user-set-forgot-password" method="POST" class=" space-y-4">
                 @csrf
 
-                
+
                 <div>
-                    <label for="email" class=" text-gray-600 mb-1">User Email</label>
-                    <input type="text" id="email" placeholder="Enter User Email"
+                    <input type="hidden" placeholder="Enter User Email" value={{$email}}
                         class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none" name="email">
                     @error('email')
                     <div class=" text-red-500 ">{{ $message }}</div>
@@ -36,9 +35,15 @@
                     <div class=" text-red-500 ">{{ $message }}</div>
                     @enderror
                 </div>
-                
-                <button type="submit" class=" cursor-pointer w-full bg-green-500 rounded-xl py-2 px-4 text-white">Login</button>
-            <a href="/user-forgot-password" class=" text-orange-500" >Forget Password?</a>
+                <div>
+                    <label for="" class=" text-gray-600 mb-1">Confirm User Password</label>
+                    <input type="password" placeholder="Confirm User Password"
+                        class=" w-full border px-4 border-gray-300 rounded-xl py-2 focus:outline-none" name="password_confirmation">
+                    @error('password_confirmation')
+                    <div class=" text-red-500 ">{{ $message }}</div>
+                    @enderror
+                </div>
+                <button type="submit" class=" cursor-pointer w-full bg-green-500 rounded-xl py-2 px-4 text-white">Update Password</button>
             </form>
         </div>
     </div>
