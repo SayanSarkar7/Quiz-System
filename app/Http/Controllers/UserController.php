@@ -69,9 +69,9 @@ class userController extends Controller
             if (Session::has("quiz-url")) {
                 $url = Session::get('quiz-url');
                 Session::forget('quiz-url');
-                return redirect($url);
+                return redirect($url)->with('message-success',"User Registered Successfully, Please Check Email to Verify Account");
             }
-            return redirect("/");
+            return redirect("/")->with('message-success',"User Registered Successfully, Please Check Email to Verify Account");
         }
     }
     function userLogOut()
@@ -93,7 +93,7 @@ class userController extends Controller
         ]);
         $user = User::where('email', $request->email)->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return "User not valid, Please check user and password again";
+            return redirect("user-login")->with("message-error","User not valid, Please check user and password again");
         }
         if ($user) {
             Session::put('user', $user);
@@ -201,7 +201,7 @@ class userController extends Controller
         if ($user) {
             $user->active = 2;
             if ($user->save()) {
-                return redirect("/");
+                return redirect("/")->with('message-success',"User verified successfully");
             }
         }
     }
@@ -211,7 +211,7 @@ class userController extends Controller
         $link = url('/user-forgot-password/' . $link);
         Mail::to($request->email)->send(new UserForgotPassword($link));
 
-        return redirect("/");
+        return redirect("/")->with("message-success","Please check your email to set new password");
     }
     function userResetForgotPassword($email)
     {
@@ -228,7 +228,7 @@ class userController extends Controller
         if($user){
             $user->password=Hash::make($request->password);
             if($user->save()){
-                return redirect('user-login');
+                return redirect('user-login')->with("message-success","New Password is set successfully, please Login with new password");
             }
         }
         return $request;

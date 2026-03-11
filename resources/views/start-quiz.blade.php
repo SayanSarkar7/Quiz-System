@@ -13,6 +13,11 @@
 
     <x-user-navbar></x-user-navbar>
     <div class=" bg-gray-100 flex flex-col items-center min-h-screen  pt-5 ">
+        @if(session('message-success'))
+        <div>
+            <p class=" text-green-500 font-bold">{{session('message-success')}}</p>
+        </div>
+        @endif
         <h1 class=" text-4xl font-bold text-green-900 text-center mb-6 font-comic">{{$quizName}}</h1>
         <h2 class=" text-lg font-bold text-green-900 text-center mb-6 font-comic">This Quiz contains {{$quizCount}} number of questions and no limit to attempt this Quiz</h2>
         <h2 class=" text-2xl font-bold text-green-900 text-center mb-6 font-comic">Good Luck</h2>
