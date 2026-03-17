@@ -34,7 +34,7 @@ class userController extends Controller
     function userCategories()
     {
 
-        $categories = Category::get();
+        $categories = Category::withCount("quizzes")->orderBy('quizzes_count', 'desc')->orderBy('id', 'asc')->paginate(2);
         $user = Session::get("user");
         if ($user) {
             return view("user-category", ["name" => $user->name, "categories" => $categories]);

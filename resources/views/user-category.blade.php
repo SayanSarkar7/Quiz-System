@@ -21,10 +21,10 @@
     <div class=" bg-red-700 text-white pl-5">{{ session('delete') }}</div>
     @endif
     <div class=" bg-gray-100 flex flex-col items-center min-h-screen  pt-5 ">
-        
-        <div class=" w-200 mt-15">
+
+        <div class=" w-200 mt-15 mb-15">
             <h1 class=" text-2xl text-green-500 text-center mb-10">Category List</h1>
-            <ul class="border border-gray-200 ">
+            <ul class="border border-gray-200 mb-10">
                 <li class=" p-2 font-bold text-lg">
                     <ul class=" flex justify-between ">
                         <li class=" w-20">
@@ -54,7 +54,7 @@
                             {{ $category->creator }}
                         </li>
                         <li class=" w-20 flex">
-                            
+
                             <a href="user-quiz-list/{{$category->id}}/{{str_replace(' ','-',$category->name)}}">
 
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
@@ -66,7 +66,15 @@
                 </li>
                 @endforeach
             </ul>
+               
+
+                    {{ $categories->links() }}
+                
         </div>
+
+       
+
+
     </div>
 
 </body>
