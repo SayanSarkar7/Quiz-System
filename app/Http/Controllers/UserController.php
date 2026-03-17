@@ -31,7 +31,17 @@ class userController extends Controller
         $quizData = Quiz::withCount("Mcq")->where("category_id", $id)->get();
         return view("user-quiz-list", ["quizData" => $quizData, "category" => $category]);
     }
+    function userCategories()
+    {
 
+        $categories = Category::get();
+        $user = Session::get("user");
+        if ($user) {
+            return view("user-category", ["name" => $user->name, "categories" => $categories]);
+        } else {
+            return view("user-login");
+        }
+    }
 
     function startQuiz($id, $name)
     {

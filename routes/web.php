@@ -18,12 +18,26 @@ use App\Http\Controllers\UserController;
 Route::get("/", [UserController::class, "home"]);
 Route::get('user-quiz-list/{id}/{category}', [UserController::class, "userQuizList"]);
 Route::get('start-quiz/{id}/{name}', [UserController::class, "startQuiz"]);
-Route::view("user-signup", "user-signup");
+// Route::view("user-signup", "user-signup");
 Route::post("user-signup", [UserController::class, "userSignUp"]);
 Route::get("user-logout", [UserController::class, "userLogOut"]);
 Route::get("user-signup-quiz", [UserController::class, "userSignUpQuiz"]);
-Route::view("user-login", "user-login");
+// Route::view("user-login", "user-login");
 Route::post("user-login", [UserController::class, "userLogin"]);
+Route::get("user-login",function (){
+    if(!Session('user')){
+        return view('user-login');
+    }else{
+        return redirect("/");
+    }
+});
+Route::get("user-signup",function (){
+    if(!Session('user')){
+        return view('user-signup');
+    }else{
+        return redirect("/");
+    }
+});
 Route::get("user-login-quiz", [UserController::class, "userLoginQuiz"]);
 Route::get("search-quiz", [UserController::class, "searchQuiz"]);
 Route::get("verify-user/{email}", [UserController::class, "verifyUser"]);
@@ -35,6 +49,7 @@ Route::post("user-set-forgot-password", [UserController::class, "userSetForgotPa
 Route::middleware('CheckUserAuth')->group(function () {
     Route::post("mcq-save-next/{id}", [UserController::class, "mcqSaveNext"]);
     Route::get("user-details", [UserController::class, "userDetails"]);
+    Route::get("user-categories", [userController::class, "userCategories"]);
     Route::get("mcq/{id}/{name}", [UserController::class, "mcq"]);
 });
 

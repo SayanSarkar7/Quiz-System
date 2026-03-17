@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Start Quiz Page</title>
+    <title>{{str_replace('-',' ',$quizName)}}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -18,7 +18,7 @@
             <p class=" text-green-500 font-bold">{{session('message-success')}}</p>
         </div>
         @endif
-        <h1 class=" text-4xl font-bold text-green-900 text-center mb-6 font-comic">{{$quizName}}</h1>
+        <h1 class=" text-4xl font-bold text-green-900 text-center mb-6 font-comic">{{str_replace('-',' ',$quizName)}}</h1>
         <h2 class=" text-lg font-bold text-green-900 text-center mb-6 font-comic">This Quiz contains {{$quizCount}} number of questions and no limit to attempt this Quiz</h2>
         <h2 class=" text-2xl font-bold text-green-900 text-center mb-6 font-comic">Good Luck</h2>
         @if(Session('user'))
