@@ -13,7 +13,7 @@
 
     <x-user-navbar></x-user-navbar>
     <div class=" bg-gray-100 flex flex-col items-center min-h-screen  pt-5 ">
-        <h1 class=" text-4xl font-bold text-green-900 text-center mb-6 font-comic">{{$quizName}}</h1>
+        <h1 class=" text-4xl font-bold text-green-900 text-center mb-6 font-comic">{{str_replace('-',' ',$quizName)}}</h1>
         <h2 class=" text-2xl font-bold text-green-900 text-center mb-6 font-comic">
             Total number of MCQs : {{Session("currentQuiz")['totalMcq']}}
         </h2>

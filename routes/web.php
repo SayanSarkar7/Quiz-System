@@ -50,6 +50,8 @@ Route::middleware('CheckUserAuth')->group(function () {
     Route::post("mcq-save-next/{id}", [UserController::class, "mcqSaveNext"]);
     Route::get("user-details", [UserController::class, "userDetails"]);
     Route::get("user-categories", [userController::class, "userCategories"]);
+    Route::get("certificate", [userController::class, "certificate"]);
+    Route::get("download-certificate", [userController::class, "downloadCertificate"]);
     Route::get("mcq/{id}/{name}", [UserController::class, "mcq"]);
 });
 

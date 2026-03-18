@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use App\Mail\VerifyUser;
 use App\Mail\UserForgotPassword;
+use Spatie\Browsershot\Browsershot;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class userController extends Controller
 {
@@ -244,5 +246,36 @@ class userController extends Controller
             }
         }
         return $request;
+    }
+    function certificate()
+    {
+        $data = [];
+        $data['quiz'] = str_replace('-', ' ', Session::get('currentQuiz')['quizName']);
+        $data['name'] = Session::get('user')['name'];
+        return view('certificate', ['data' => $data]);
+    }
+    function downloadCertificate()
+    {
+        $data = [];
+        $data['quiz'] = str_replace('-', ' ', Session::get('currentQuiz')['quizName']);
+        $data['name'] = Session::get('user')['name'];
+        // $html = view('download-certificate', $data)->render();
+        // return response(
+        //     Browsershot::html($html)
+        //         ->setNodeBinary('C:\\Program Files\\nodejs\\node.exe')
+        //         ->setNpmBinary('C:\\Program Files\\nodejs\\npm.cmd')
+        //         ->setChromePath('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')
+        //         ->noSandbox()
+        //         ->pdf()
+        // )->withHeaders(
+        //     [
+        //         'Content-Type' => 'application/pdf',
+        //         'Content-Disposition' => "attachment; filename=Certificate.pdf"
+        //     ]
+        // );
+
+    $pdf = Pdf::loadView('download-certificate', ['data'=>$data]);
+
+    return $pdf->download('certificate.pdf');
     }
 }
