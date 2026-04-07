@@ -1,10 +1,16 @@
 # Stage 1 - Build Frontend (Vite)
 FROM node:18 AS frontend
+
 WORKDIR /app
+
 COPY package*.json ./
 RUN npm install
+
 COPY . .
+
+# Build Vite assets
 RUN npm run build
+
 
 # Stage 2 - Backend (Laravel + PHP + Composer)
 FROM php:8.2-fpm AS backend
@@ -19,19 +25,22 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copy app files
+# Copy Laravel app
 COPY . .
 
-# Copy built frontend from Stage 1
-# COPY --from=frontend /app/public/dist ./public/dist
-COPY --from=frontend /app/dist ./public/dist
+# ✅ Correct path for Laravel Vite build
+COPY --from=frontend /app/public/build ./public/build
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Laravel setup
+# Laravel optimization
 RUN php artisan config:clear && \
     php artisan route:clear && \
     php artisan view:clear
+
+# Set permissions (important for Laravel)
+RUN chown -R www-data:www-data /var/www && \
+    chmod -R 755 /var/www/storage
 
 CMD ["php-fpm"]
