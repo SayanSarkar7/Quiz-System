@@ -1,46 +1,45 @@
-# Stage 1 - Build Frontend (Vite)
+# Stage 1 - Build Frontend
 FROM node:18 AS frontend
-
 WORKDIR /app
 
 COPY package*.json ./
 RUN npm install
 
 COPY . .
-
-# Build Vite assets
 RUN npm run build
 
 
-# Stage 2 - Backend (Laravel + PHP + Composer)
-FROM php:8.2-fpm AS backend
+# Stage 2 - Backend
+FROM php:8.2-fpm
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git curl unzip libpq-dev libonig-dev libzip-dev zip \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip
+    libpng-dev libjpeg-dev libfreetype6-dev \
+    libicu-dev \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip bcmath intl gd
 
-# Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copy Laravel app
 COPY . .
 
-# ✅ Correct path for Laravel Vite build
+# Laravel env fix
+COPY .env.example .env
+
+# Copy frontend build
 COPY --from=frontend /app/public/build ./public/build
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+# 🔥 DEBUG MODE ENABLED HERE
+RUN composer install --no-dev --optimize-autoloader -vvv
 
-# Laravel optimization
-RUN php artisan config:clear && \
+# Laravel setup
+RUN php artisan key:generate && \
+    php artisan config:clear && \
     php artisan route:clear && \
     php artisan view:clear
 
-# Set permissions (important for Laravel)
-RUN chown -R www-data:www-data /var/www && \
-    chmod -R 755 /var/www/storage
+# Permissions
+RUN chmod -R 777 storage bootstrap/cache
 
 CMD ["php-fpm"]
