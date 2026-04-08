@@ -3,7 +3,9 @@
 
 <head>
     <title>User Login</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
+<link rel="stylesheet" href="/build/assets/app-8f8302ad.css">
+<script src="/build/assets/app-3720562b.js" defer></script>
 
 </head>
 
