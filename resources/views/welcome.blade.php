@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home Page</title>
-    <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
-     <link rel="stylesheet" href="/build/app.css">
-    <script src="/build/app.js" defer></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
